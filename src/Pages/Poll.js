@@ -3,6 +3,7 @@ import { useQuery } from 'react-query'
 import { Flex, Box, Button, Heading } from '@chakra-ui/react'
 import { useHistory } from 'react-router-dom'
 
+import url from '../utils/getUrl'
 import Navigation from '../components/Navigation'
 
 const Poll = ({
@@ -11,7 +12,7 @@ const Poll = ({
   }
 }) => {
   const { isLoading, data } = useQuery('poll', () =>
-    fetch(`http://localhost:3000/poll/${pollId}`).then((res) => {
+    fetch(`${url}/poll/${pollId}`).then((res) => {
       return res.json()
     })
   )
@@ -19,16 +20,13 @@ const Poll = ({
   const history = useHistory()
 
   const vote = (value) => {
-    fetch(`http://localhost:3000/poll/${pollId}`, {
+    fetch(`${url}/poll/${pollId}`, {
       method: 'POST',
       body: JSON.stringify(value),
       headers: { 'Content-type': 'application/json; charset=UTF-8' }
     })
     history.push(`/poll/${pollId}/results`)
   }
-  // const voteOption = () => {
-  //   console.log('voting')
-  // }
 
   if (isLoading) {
     return <h1>Loading...</h1>

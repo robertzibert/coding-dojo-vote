@@ -2,12 +2,13 @@ import React from 'react'
 import { Flex, Box, Heading } from '@chakra-ui/react'
 import { useQuery } from 'react-query'
 
+import url from '../utils/getUrl'
 import PollList from '../components/PollList'
 import Navigation from '../components/Navigation'
 
 const Dashboard = () => {
   const { isLoading, data: polls } = useQuery('polls', () =>
-    fetch('http://localhost:3000/polls').then((res) => {
+    fetch(`${url}/polls`).then((res) => {
       return res.json()
     })
   )

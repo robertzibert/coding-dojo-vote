@@ -5,7 +5,15 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { ChakraProvider } from '@chakra-ui/react'
 
 const App = () => {
-  const queryClient = new QueryClient()
+  const queryClient = new QueryClient(
+    new QueryClient({
+      defaultOptions: {
+        queries: {
+          refetchOnWindowFocus: false
+        }
+      }
+    })
+  )
 
   return (
     <QueryClientProvider client={queryClient}>

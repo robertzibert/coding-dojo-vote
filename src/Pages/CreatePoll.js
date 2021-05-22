@@ -5,6 +5,7 @@ import * as Yup from 'yup'
 
 import Navigation from '../components/Navigation'
 import Field from '../components/Field'
+import url from '../utils/getUrl'
 
 const CreatePoll = () => {
   const pollSchema = Yup.object().shape({
@@ -13,18 +14,20 @@ const CreatePoll = () => {
     secondOption: Yup.string().required('Dont forget to fill this field')
   })
 
-  const { handleChange, values, handleSubmit, errors, touched } = useFormik({
+  const { handleChange, handleSubmit, errors, touched } = useFormik({
     initialValues: {},
     validationSchema: pollSchema,
-    onSubmit: (values, actions) => {
-      fetch('http://localhost:3000/poll/new', {
+    onSubmit: async (values) => {
+      const res = await fetch(`${url}/poll/new`, {
         method: 'POST',
         body: JSON.stringify(values),
         headers: { 'Content-type': 'application/json; charset=UTF-8' }
       })
-      setTimeout(() => {
-        alert(JSON.stringify(values, null, 2))
-      }, 1000)
+
+      if (!res.ok) {
+        const err = await res.json()
+        alert(err.message)
+      }
     }
   })
 
@@ -85,8 +88,8 @@ const CreatePoll = () => {
                 />
               </Box>
             </Flex>
-            <Box d="flex" alignItems="center" p="2" w="100%" p="2">
-              <Button mt={4} colorScheme="teal" type={'submit'} type="submit">
+            <Box d="flex" alignItems="center" p="2" w="100%">
+              <Button mt={4} colorScheme="teal" type="submit">
                 Submit
               </Button>
             </Box>

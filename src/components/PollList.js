@@ -18,8 +18,6 @@ const renderTitle = (question) => {
 
 const renderOptions = ({ _id, createdAt, __v, question, ...options }) => {
   const optionsKeys = Object.keys(options)
-  const labels = optionsKeys.map((key) => options[key].title)
-  const data = optionsKeys.map((key) => options[key].votes)
   return (
     <Box as="span" color="gray.600" fontSize="sm">
       {optionsKeys.map((optionKey) => `${options[optionKey].title}:${options[optionKey].votes || 0}  `)}
