@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Doughnut } from 'react-chartjs-2'
 import { useQuery } from 'react-query'
-import { Flex, Box, Heading, Alert, AlertIcon, AlertTitle, AlertDescription } from '@chakra-ui/react'
+import { Flex, Box, Heading, Alert, AlertIcon, AlertTitle } from '@chakra-ui/react'
 import openSocket from 'socket.io-client'
 
 import url from '../utils/getUrl'
@@ -60,7 +60,10 @@ const Poll = ({
         <Box flexDirection="column" borderWidth="1px" borderRadius="lg" d="flex" p="5" w="100%">
           <Alert mb={2} status="success">
             <AlertIcon />
-            <AlertTitle mr={2}>Thanks for participate 👏</AlertTitle>
+
+            <AlertTitle mr={2}>
+              Thanks for participate <span role="img">👏</span>
+            </AlertTitle>
           </Alert>
 
           <Heading mb="2" size="md">
