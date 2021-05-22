@@ -26,6 +26,7 @@ const CreatePoll = () => {
 
       if (!res.ok) {
         const err = await res.json()
+
         alert(err.message)
       }
     }
