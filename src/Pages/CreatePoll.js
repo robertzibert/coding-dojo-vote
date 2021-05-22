@@ -76,7 +76,7 @@ const CreatePoll = () => {
                 />
                 <Field
                   field={<Input />}
-                  name="thirdOption"
+                  name="fourthOption"
                   label={'Third Option'}
                   placeholder="Option 4"
                   errors={errors}

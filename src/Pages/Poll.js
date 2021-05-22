@@ -1,17 +1,9 @@
 import React from 'react'
 import { useQuery } from 'react-query'
 import { Flex, Box, Button, Heading } from '@chakra-ui/react'
+import { useHistory } from 'react-router-dom'
 
 import Navigation from '../components/Navigation'
-
-const renderExtraQuestions = ({ poll: { thirdOption, fourthOption } }) => {
-  return (
-    <div>
-      {thirdOption && <Button mt="2">{thirdOption.title}</Button>}
-      {fourthOption && <Button mt="2">{fourthOption.title}</Button>}
-    </div>
-  )
-}
 
 const Poll = ({
   match: {
@@ -24,12 +16,39 @@ const Poll = ({
     })
   )
 
+  const history = useHistory()
+
+  const vote = (value) => {
+    fetch(`http://localhost:3000/poll/${pollId}`, {
+      method: 'POST',
+      body: JSON.stringify(value),
+      headers: { 'Content-type': 'application/json; charset=UTF-8' }
+    })
+    history.push(`/poll/${pollId}/results`)
+  }
   // const voteOption = () => {
   //   console.log('voting')
   // }
 
   if (isLoading) {
     return <h1>Loading...</h1>
+  }
+
+  const renderExtraQuestions = ({ poll: { thirdOption, fourthOption } }) => {
+    return (
+      <>
+        {thirdOption && (
+          <Button onClick={() => vote({ 'thirdOption.votes': 1 })} mt="2">
+            {thirdOption.title}
+          </Button>
+        )}
+        {fourthOption && (
+          <Button onClick={() => vote({ 'fourthOption.votes': 1 })} mt="2">
+            {fourthOption.title}
+          </Button>
+        )}
+      </>
+    )
   }
 
   return (
@@ -41,8 +60,12 @@ const Poll = ({
             {data.poll.question}
           </Heading>
 
-          <Button mt="2">{data.poll.firstOption.title}</Button>
-          <Button mt="2">{data.poll.secondOption.title}</Button>
+          <Button onClick={() => vote({ 'firstOption.votes': 1 })} mt="2">
+            {data.poll.firstOption.title}
+          </Button>
+          <Button onClick={() => vote({ 'secondOption.votes': 1 })} mt="2">
+            {data.poll.secondOption.title}
+          </Button>
           {renderExtraQuestions(data)}
         </Box>
       </Flex>
